@@ -1,33 +1,55 @@
 package graph;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
 
 public class Graph {
-	private Map<Vertex, List<Vertex>> adjacencyMap;
+	private List<Vertex> vertices;
 	
 	public Graph() {
-		adjacencyMap = new HashMap<>();
+		vertices = new ArrayList<>();
 	}
 	
-	public void addVertex(Color color) {
-		Vertex newVertex = new Vertex(color);
-		adjacencyMap.put(newVertex, new ArrayList<Vertex>());
-		for(Vertex v : adjacencyMap.keySet()) {
-			addEdge(newVertex, v);
+	public void generateGraph(int nbVertices, double redVertexProb, double blueEdgeProb) {
+		for(int i = 0; i < nbVertices; i++) {
+			addVertex(redVertexProb, blueEdgeProb);
 		}
 	}
+	
+	public void addVertex(double redVertexProb, double blueEdgeProb) {
+		Vertex newVertex = new Vertex(getColorFromProb(redVertexProb));
+		for(Vertex v : vertices) {
+			addEdge(newVertex, v, blueEdgeProb);
+		}
+		vertices.add(newVertex);
+	}
 
-	private void addEdge(Vertex newVertex, Vertex v) {
-		adjacencyMap.get(newVertex).add(v);
-		adjacencyMap.get(v).add(newVertex);
+	private void addEdge(Vertex newVertex, Vertex v, double blueEdgeProb) {
+		new Edge(getColorFromProb(1-blueEdgeProb), newVertex, v);
+		new Edge(getColorFromProb(1-blueEdgeProb), v, newVertex);
 	}
 	
 	public void removeVertex(Vertex v) {
-		for(List<Vertex> liste : adjacencyMap.values())
-			liste.remove(v);
-		adjacencyMap.remove(v);
+		vertices.remove(v);
+		v.delete();
+	}
+	
+	private Color getColorFromProb(double prob) {
+		Random r = new Random();
+		if(r.nextDouble() < prob)
+			return Color.RED;
+		return Color.BLUE;
+	}
+	
+	public void print() {
+		String tripleTab = "\t\t\t";
+		for(Vertex v : vertices) {
+			System.out.println(tripleTab + v.color);
+			for(Edge e : v.outcoming) {
+				System.out.println(tripleTab+"\t---"+(e.getColor() == Color.RED ? "R" : "B")+"--->"+e.getDst().color);
+			}
+		}
+
 	}
 }

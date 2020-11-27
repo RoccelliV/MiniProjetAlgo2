@@ -9,6 +9,8 @@ public class Edge {
 		this.color = color;
 		this.src = src;
 		this.dst = dst;
+		src.addOutcomingEdge(this);
+		dst.addIncomingEdge(this);
 	}
 
 	Color getColor() {
@@ -22,5 +24,21 @@ public class Edge {
 	Vertex getDst() {
 		return dst;
 	}
+	
+	public void delete() {
+		deleteFromSrc();
+		deleteFromDst();
+	}
 
+	public void deleteFromSrc() {
+		src.removeOutcomingEdge(this);
+	}
+	
+	public void deleteFromDst() {
+		dst.removeIncomingEdge(this);
+	}
+	
+	public void colorDst() {
+		dst.setColor(color);
+	}
 }
