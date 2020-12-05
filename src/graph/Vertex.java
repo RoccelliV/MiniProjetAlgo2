@@ -14,6 +14,10 @@ public class Vertex {
 		outcoming = new ArrayList<>();
 	}
 
+	public Color getColor() {
+		return color;
+	}
+	
 	public void setColor(Color color) {
 		this.color = color;
 	}
@@ -42,6 +46,37 @@ public class Vertex {
 			e.colorDst();
 			e.deleteFromDst();
 		}
-		
+	}
+	
+	public int getNbBlueOutcoming() {
+		int count = 0;
+		for(Edge e : outcoming)
+			if(e.getColor() == Color.BLUE)
+				count ++;
+		return count;
+	}
+	
+	public int getNbRedOutcoming() {
+		int count = 0;
+		for(Edge e : outcoming)
+			if(e.getColor() == Color.RED)
+				count ++;
+		return count;
+	}
+	
+	public int getNbBlueIncoming() {
+		int count = 0;
+		for(Edge e : incoming)
+			if(e.getColor() == Color.BLUE)
+				count ++;
+		return count;
+	}
+	
+	public int getNbRedIncoming() {
+		int count = 0;
+		for(Edge e : incoming)
+			if(e.getColor() == Color.RED)
+				count ++;
+		return count;
 	}
 }
