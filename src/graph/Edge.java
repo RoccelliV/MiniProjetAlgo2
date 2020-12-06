@@ -13,6 +13,12 @@ public class Edge {
 		dst.addIncomingEdge(this);
 	}
 
+	public Edge(Edge e) {
+		color = e.color;
+		src = e.src;
+		dst = e.dst;
+	}
+
 	Color getColor() {
 		return color;
 	}

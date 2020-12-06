@@ -14,6 +14,16 @@ public class Vertex {
 		outcoming = new ArrayList<>();
 	}
 
+	public Vertex(Vertex v) {
+		this.setColor(v.color);
+		incoming = new ArrayList<>();
+		for(Edge e : v.incoming)
+			incoming.add(new Edge(e));
+		outcoming = new ArrayList<>();
+		for(Edge e : v.outcoming)
+			outcoming.add(new Edge(e));
+	}
+
 	public Color getColor() {
 		return color;
 	}
@@ -46,6 +56,15 @@ public class Vertex {
 			e.colorDst();
 			e.deleteFromDst();
 		}
+	}
+	
+	public int getScoreForHeristic2() {
+		int score = 0;
+		for(Edge e : outcoming) {
+			int tmp = e.getDst().getNbRedOutcoming() + e.getDst().getNbBlueIncoming() - e.getDst().getNbRedIncoming() - e.getDst().getNbBlueOutcoming();
+			score += e.getColor() == Color.RED ? (tmp*2) : (tmp/2);
+		}
+		return score;
 	}
 	
 	public int getNbBlueOutcoming() {

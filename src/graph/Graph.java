@@ -11,6 +11,12 @@ public class Graph {
 		vertices = new ArrayList<>();
 	}
 	
+	public Graph(Graph g) {
+		vertices = new ArrayList<Vertex>();
+		for(Vertex v : g.vertices)
+			vertices.add(new Vertex(v));
+	}
+	
 	public void generateGraph(int nbVertices, double redVertexProb, double blueEdgeProb) {
 		vertices.clear();
 		for(int i = 0; i < nbVertices; i++) {
@@ -36,6 +42,10 @@ public class Graph {
 			throw new Exception("TRYING TO DELETE BLUE VERTEX");
 		vertices.remove(v);
 		v.delete();
+	}
+	
+	public void removeVertex(int index) throws Exception {
+		removeVertex(vertices.get(index));
 	}
 	
 	private Color getColorFromProb(double prob) {
